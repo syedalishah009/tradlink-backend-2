@@ -1,0 +1,12 @@
+{
+  "collectionName": "components_laptop_screen_sizes",
+  "info": {
+    "displayName": "screenSize"
+  },
+  "options": {},
+  "attributes": {
+    "size": {
+      "type": "string"
+    }
+  }
+}

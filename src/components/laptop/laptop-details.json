@@ -1,0 +1,63 @@
+{
+  "collectionName": "components_laptop_laptop_details",
+  "info": {
+    "displayName": "LaptopDetails",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "keyboard": {
+      "type": "string"
+    },
+    "condition": {
+      "type": "enumeration",
+      "enum": [
+        "excellent"
+      ]
+    },
+    "screen": {
+      "type": "string"
+    },
+    "model": {
+      "type": "string"
+    },
+    "graphics": {
+      "type": "string"
+    },
+    "weight": {
+      "type": "string"
+    },
+    "CPU": {
+      "type": "string"
+    },
+    "resolution": {
+      "type": "string"
+    },
+    "OS": {
+      "type": "enumeration",
+      "enum": [
+        "windows"
+      ]
+    },
+    "wifi": {
+      "type": "enumeration",
+      "enum": [
+        "yes",
+        "no"
+      ]
+    },
+    "camera": {
+      "type": "string"
+    },
+    "audio": {
+      "type": "string"
+    },
+    "brand": {
+      "type": "enumeration",
+      "enum": [
+        "HP",
+        "DELL"
+      ]
+    }
+  }
+}
