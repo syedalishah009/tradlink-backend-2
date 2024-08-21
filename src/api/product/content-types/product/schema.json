@@ -10,14 +10,28 @@
   "options": {
     "draftAndPublish": true
   },
-  "pluginOptions": {},
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
   "attributes": {
     "title": {
       "type": "string",
-      "required": true
+      "required": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
     },
     "price": {
-      "type": "decimal"
+      "type": "decimal",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
     },
     "image": {
       "type": "media",
@@ -28,17 +42,12 @@
         "files",
         "videos",
         "audios"
-      ]
-    },
-    "category": {
-      "type": "enumeration",
-      "enum": [
-        "camera",
-        "used laptop",
-        "mobile"
       ],
-      "required": true,
-      "default": "used laptop"
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
     },
     "details": {
       "type": "dynamiczone",
@@ -47,7 +56,12 @@
         "laptop.ram",
         "laptop.storage",
         "laptop.screen-size"
-      ]
+      ],
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
     },
     "slug": {
       "type": "customField",
@@ -55,6 +69,35 @@
         "pattern": "title"
       },
       "customField": "plugin::slug.slug"
+    },
+    "orignalPrice": {
+      "type": "decimal",
+      "required": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "categories": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::category.category",
+      "inversedBy": "products"
+    },
+    "brand": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::brand.brand",
+      "inversedBy": "products"
+    },
+    "description": {
+      "type": "richtext",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
     }
   }
 }

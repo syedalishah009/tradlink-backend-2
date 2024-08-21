@@ -59,7 +59,6 @@ export interface LaptopLaptopDetails extends Schema.Component {
     wifi: Attribute.Enumeration<['yes', 'no']>;
     camera: Attribute.String;
     audio: Attribute.String;
-    brand: Attribute.Enumeration<['HP', 'DELL']>;
   };
 }
 

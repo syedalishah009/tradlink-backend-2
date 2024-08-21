@@ -788,22 +788,68 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
+export interface ApiBrandBrand extends Schema.CollectionType {
+  collectionName: 'brands';
+  info: {
+    singularName: 'brand';
+    pluralName: 'brands';
+    displayName: 'brand';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    products: Attribute.Relation<
+      'api::brand.brand',
+      'oneToMany',
+      'api::product.product'
+    >;
+    categories: Attribute.Relation<
+      'api::brand.brand',
+      'manyToMany',
+      'api::category.category'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::brand.brand',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::brand.brand',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiCategoryCategory extends Schema.CollectionType {
   collectionName: 'categories';
   info: {
     singularName: 'category';
     pluralName: 'categories';
     displayName: 'category';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    name: Attribute.String & Attribute.Required;
-    slug: Attribute.UID;
+    title: Attribute.String & Attribute.Required;
+    brands: Attribute.Relation<
+      'api::category.category',
+      'manyToMany',
+      'api::brand.brand'
+    >;
     products: Attribute.Relation<
       'api::category.category',
-      'oneToMany',
+      'manyToMany',
       'api::product.product'
     >;
     createdAt: Attribute.DateTime;
@@ -830,13 +876,24 @@ export interface ApiOrderOrder extends Schema.CollectionType {
     singularName: 'order';
     pluralName: 'orders';
     displayName: 'order';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
     stripeId: Attribute.String & Attribute.Required;
-    product: Attribute.JSON;
+    products: Attribute.JSON & Attribute.Required;
+    status: Attribute.Enumeration<['Delivered', 'Undelivered']> &
+      Attribute.DefaultTo<'Undelivered'>;
+    firstName: Attribute.String;
+    lastName: Attribute.String;
+    email: Attribute.Email;
+    region: Attribute.String;
+    address: Attribute.Text;
+    city: Attribute.String;
+    emirate: Attribute.String;
+    phone: Attribute.BigInteger & Attribute.Required;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -866,14 +923,32 @@ export interface ApiProductProduct extends Schema.CollectionType {
   options: {
     draftAndPublish: true;
   };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
   attributes: {
-    title: Attribute.String & Attribute.Required;
-    price: Attribute.Decimal;
-    image: Attribute.Media<'images' | 'files' | 'videos' | 'audios'> &
-      Attribute.Required;
-    category: Attribute.Enumeration<['camera', 'used laptop', 'mobile']> &
+    title: Attribute.String &
       Attribute.Required &
-      Attribute.DefaultTo<'used laptop'>;
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    price: Attribute.Decimal &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    image: Attribute.Media<'images' | 'files' | 'videos' | 'audios'> &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     details: Attribute.DynamicZone<
       [
         'laptop.laptop-details',
@@ -881,7 +956,12 @@ export interface ApiProductProduct extends Schema.CollectionType {
         'laptop.storage',
         'laptop.screen-size'
       ]
-    >;
+    > &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     slug: Attribute.String &
       Attribute.CustomField<
         'plugin::slug.slug',
@@ -889,6 +969,29 @@ export interface ApiProductProduct extends Schema.CollectionType {
           pattern: 'title';
         }
       >;
+    orignalPrice: Attribute.Decimal &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    categories: Attribute.Relation<
+      'api::product.product',
+      'manyToMany',
+      'api::category.category'
+    >;
+    brand: Attribute.Relation<
+      'api::product.product',
+      'manyToOne',
+      'api::brand.brand'
+    >;
+    description: Attribute.RichText &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -904,6 +1007,12 @@ export interface ApiProductProduct extends Schema.CollectionType {
       'admin::user'
     > &
       Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::product.product',
+      'oneToMany',
+      'api::product.product'
+    >;
+    locale: Attribute.String;
   };
 }
 
@@ -925,6 +1034,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'api::brand.brand': ApiBrandBrand;
       'api::category.category': ApiCategoryCategory;
       'api::order.order': ApiOrderOrder;
       'api::product.product': ApiProductProduct;

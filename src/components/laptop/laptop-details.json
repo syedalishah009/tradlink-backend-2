@@ -51,13 +51,6 @@
     },
     "audio": {
       "type": "string"
-    },
-    "brand": {
-      "type": "enumeration",
-      "enum": [
-        "HP",
-        "DELL"
-      ]
     }
   }
 }

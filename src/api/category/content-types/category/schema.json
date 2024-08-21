@@ -4,24 +4,29 @@
   "info": {
     "singularName": "category",
     "pluralName": "categories",
-    "displayName": "category"
+    "displayName": "category",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "name": {
+    "title": {
       "type": "string",
       "required": true
     },
-    "slug": {
-      "type": "uid"
+    "brands": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::brand.brand",
+      "inversedBy": "categories"
     },
     "products": {
       "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::product.product"
+      "relation": "manyToMany",
+      "target": "api::product.product",
+      "mappedBy": "categories"
     }
   }
 }

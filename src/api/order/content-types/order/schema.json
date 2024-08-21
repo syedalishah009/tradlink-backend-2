@@ -4,7 +4,8 @@
   "info": {
     "singularName": "order",
     "pluralName": "orders",
-    "displayName": "order"
+    "displayName": "order",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -15,8 +16,43 @@
       "type": "string",
       "required": true
     },
-    "product": {
-      "type": "json"
+    "products": {
+      "type": "json",
+      "required": true
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "Delivered",
+        "Undelivered"
+      ],
+      "default": "Undelivered",
+      "required": false
+    },
+    "firstName": {
+      "type": "string"
+    },
+    "lastName": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "region": {
+      "type": "string"
+    },
+    "address": {
+      "type": "text"
+    },
+    "city": {
+      "type": "string"
+    },
+    "emirate": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "biginteger",
+      "required": true
     }
   }
 }
